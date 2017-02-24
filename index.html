@@ -5,7 +5,7 @@
 <head>
 
     <!-- For development environment only -->
-    <meta http-equiv="refresh" content="10">
+    <meta http-equiv="refresh" content="3">
     <!--  -------------------------------- -->
 
     <title>Twitch.tv Stream Info</title>
@@ -24,21 +24,45 @@
             <h1 class="page-title">Development and Technology Twitch Streams</h1>
         </div>
         <div id="channelsContainer" class="container">
-            <div class="row">
+            <div id="FreeCodeCamp" class="row">
                 <div class="channel-container container col-sm-8 col-sm-offset-2">
                     <img class="col-sm-3 channel-logo" src="spec/SampleImages/FreeCodeCampLogo.jpg">
                     <div class="container col-sm-9">
                         <h3 class="channel-name col-sm-12">Free Code Camp</h3>
                         <p class="more-info-link col-sm-12">Not currently streaming</p>
+                        <div class="stream-info-container container col-sm-12">
+                            <ul class="stream-info-list">
+                                <li class="stream-property">
+                                    <span class="property-title">Game: </span>
+                                    <span class="property-value">Overwatch</span>
+                                </li>
+                                <li class="stream-property">
+                                    <span class="property-title">Currently Watching: </span>
+                                    <span class="property-value">1200</span>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div id="twit" class="row">
                 <div class="channel-container container col-sm-8 col-sm-offset-2">
                     <img class="col-sm-3 channel-logo" src="spec/SampleImages/TWiTLogo.png">
                     <div class="container col-sm-9">
                         <h3 class="channel-name col-sm-12">TWIT (This week in tech)</h3>
                         <p class="more-info-link col-sm-12">See what's playing</p>
+                        <div class="stream-info-container container col-sm-12 hidden">
+                            <ul class="stream-info-list">
+                                <li class="stream-property">
+                                    <span class="property-title">Game: </span>
+                                    <span class="property-value">Halo</span>
+                                </li>
+                                <li class="stream-property">
+                                    <span class="property-title">Currently Watching: </span>
+                                    <span class="property-value">12</span>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
