@@ -1,3 +1,11 @@
 .hidden {
     display: none;
 }
+
+body {
+    background: black no-repeat;
+    background-image: url("spec/SampleImages/Glitch_White_RGB.png");
+    background-size: 15%, 15%;
+    background-position: 94% 50%;
+    background-attachment: fixed;
+}
