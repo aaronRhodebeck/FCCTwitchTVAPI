@@ -11,6 +11,7 @@ function TwitchUser(userName) {
     var thisUser = this;
     this.userName = userName;
     this.channelURL;
+    this.channelInfo;
     this.isCurrentlyStreaming;
     this.currentStreamInfo;
 
@@ -18,6 +19,10 @@ function TwitchUser(userName) {
 
     function createChannelURL(userName) {
         thisUser.channelURL = "https://www.twitch.tv/" + userName;
+    }
+
+    function getChannelInfo(userName) {
+
     }
 
     this.getCurrentTwitchStreamInfo = function() {
