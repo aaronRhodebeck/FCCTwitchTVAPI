@@ -1,0 +1,38 @@
+.hidden {
+    display: none;
+}
+
+body {
+    background: black no-repeat;
+    background-image: url("spec/SampleImages/Glitch_Purple_RGB.svg");
+    background-size: 15%, 15%;
+    background-position: 94% 50%;
+    background-attachment: fixed;
+    color: rgb(174, 168, 211);
+}
+
+h3 {
+    font-size: 2em;
+}
+
+.page-title {
+    color: rgb(110, 75, 174);
+    text-align: center;
+    font-size: 2.9em;
+}
+
+.channel-container {
+    margin-top: 16px;
+}
+
+.channel-logo {
+    border-radius: 50%;
+}
+
+.more-info-link {
+    font-size: 1.3em;
+}
+
+.stream-property {
+    font-size: 1.3em;
+}
