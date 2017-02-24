@@ -1,3 +1,12 @@
+var twitchUsers = [
+    Twit,
+    FreeCodeCamp,
+    DrunkDevs,
+    Blasman13,
+    NarcosVsZombies,
+    HardlyDifficult,
+]
+
 function TwitchUser(userName) {
     var thisUser = this;
     this.userName = userName;
