@@ -21,9 +21,13 @@ function TwitchUser(userName) {
         thisUser.channelURL = "https://www.twitch.tv/" + userName;
     }
 
+    function createAPICallFor(channelOrStream, userName) {
+        var twitchApiUrl = "https://wind-bow.gomix.me/twitch-api/";
+        var apiCall = twitchApiUrl + channelOrStream + "/" + userName;
+    }
+
     this.getChannelInfo = function() {
-        var twitchChannelApiUrl = "https://wind-bow.gomix.me/twitch-api/channels/";
-        var apiCall = twitchChannelApiUrl + thisUser.userName;
+        var apiCall = createAPICallFor("channel", thisUser.userName);
         var promise = new Promise(function(resolve, reject) {
             $.getJSON(apiCall).then(function(json) {
                 thisUser.channelInfo = json;
@@ -34,8 +38,7 @@ function TwitchUser(userName) {
     }
 
     this.getCurrentTwitchStreamInfo = function() {
-        var twitchStreamAPIUrl = "https://wind-bow.gomix.me/twitch-api/streams/";
-        var apiCall = twitchStreamAPIUrl + thisUser.userName;
+        var apiCall = createAPICallFor("stream", thisUser.userName);
         var promise = new Promise(function(resolve, reject) {
             $.getJSON(apiCall).then(function(json) {
                 thisUser.currentStreamInfo = json;
