@@ -146,6 +146,19 @@ describe("TwitchUser", function() {
             expect(user.currentStreamInfo).toBeUndefined();
         });
     });
+    describe(".getChannelInfo", function() {
+        beforeAll(function(done) {
+            spyOn($, "getJSON").and.callFake(function() {
+                return jsonSamples.channelInfo();
+            });
+            user.getChannelInfo().then(function() {
+                done();
+            });
+        })
+        it("should request the channel info from the twitch api", function() {
+            expect(user.channelInfo).not.toBeUndefined();
+        })
+    })
 
     describe(".getCurrentTwitchStreamInfo", function() {
 
