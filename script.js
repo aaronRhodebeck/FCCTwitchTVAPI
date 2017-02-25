@@ -14,11 +14,19 @@ function TwitchUser(userName) {
     this.channelInfo;
     this.isCurrentlyStreaming;
     this.currentStreamInfo;
+    var channelHTMLTemplate;
 
     createChannelURL(userName);
+    createChannelTemplate()
 
     function createChannelURL(userName) {
         thisUser.channelURL = "https://www.twitch.tv/" + userName;
+    }
+
+    function createChannelTemplate() {
+        var $t = $("#channelTemplate").clone().removeAttr("id");
+        var $template = $($t.html());
+        $template.attr("id", thisUser.userName)
     }
 
     function createAPICallFor(channelOrStream, userName) {
@@ -57,4 +65,13 @@ function TwitchUser(userName) {
         }
     }
 
+    this.setHTMLFor = {
+        basicInfo: function() {
+            var $channelName = $template.find(".channel-name");
+            var $logo = $template.find(".channel-logo");
+
+            $channelName.html(thisUser.userName);
+            $logo.attr("src", thisUser.channelInfo.logo);
+        }
+    }
 }
