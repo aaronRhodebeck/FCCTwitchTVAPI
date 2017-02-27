@@ -5,6 +5,7 @@ var twitchUsers = [
     "Blasman13",
     "NarcosVsZombies",
     "HardlyDifficult",
+    "Comster404",
 ]
 
 function TwitchUser(userName) {
@@ -17,7 +18,7 @@ function TwitchUser(userName) {
     this.channelHTMLTemplate;
 
     createChannelURL(userName);
-    createChannelTemplate()
+    createChannelTemplate();
 
     function createChannelURL(userName) {
         thisUser.channelURL = "https://www.twitch.tv/" + userName;
@@ -27,16 +28,15 @@ function TwitchUser(userName) {
         var $template = $("#channelTemplate").clone().removeAttr("id");
         $template.attr("id", thisUser.userName)
         thisUser.channelHTMLTemplate = $template;
-        console.log($template.html());
     }
 
     function createAPICallFor(channelOrStream, userName) {
         var twitchApiUrl = "https://wind-bow.gomix.me/twitch-api/";
-        var apiCall = twitchApiUrl + channelOrStream + "/" + userName;
+        return twitchApiUrl + channelOrStream + "/" + userName;
     }
 
     this.getChannelInfo = function() {
-        var apiCall = createAPICallFor("channel", thisUser.userName);
+        var apiCall = createAPICallFor("channels", thisUser.userName);
         var promise = new Promise(function(resolve, reject) {
             $.getJSON(apiCall).then(function(json) {
                 thisUser.channelInfo = json;
@@ -91,3 +91,34 @@ function TwitchUser(userName) {
         }
     }
 }
+
+function getAllUsers(desiredUsers) {
+    var allUsers = [];
+    for (var i = 0, len = desiredUsers.length; i < len; i++) {
+        var user = new TwitchUser(desiredUsers[i]);
+        allUsers.push(user);
+    }
+    return allUsers;
+}
+
+function getAndSetChannelInfoForAllUsers(userList) {
+    for (var i = 0, len = userList.length; i < len; i++) {
+        userList[i].getChannelInfo().then(function() {
+            usersList[i].setHTMLFor.basicInfo();
+        });
+    }
+}
+
+function addUserTemplateToHTML($location, userList) {
+    for (var i = 0, len = userList.length; i < len; i++) {
+        $location.append(userList[i]);
+    }
+
+}
+
+$(document).ready(function() {
+    var currentTwitchUsers = getAllUsers(twitchUsers);
+    getAndSetChannelInfoForAllUsers(currentTwitchUsers);
+    addUserTemplateToHTML($("#channelsContainer"), currentTwitchUsers);
+    console.log(currentTwitchUsers);
+});
