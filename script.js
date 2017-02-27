@@ -47,12 +47,12 @@ function TwitchUser(userName) {
     }
 
     this.getCurrentTwitchStreamInfo = function() {
-        var apiCall = createAPICallFor("stream", thisUser.userName);
+        var apiCall = createAPICallFor("streams", thisUser.userName);
         var promise = new Promise(function(resolve, reject) {
             $.getJSON(apiCall).then(function(json) {
                 thisUser.currentStreamInfo = json;
                 thisUser.isCurrentlyStreaming = setIsCurrentlyStreaming(json);
-                resolve();
+                resolve(thisUser);
             });
         });
         return promise;
@@ -77,6 +77,7 @@ function TwitchUser(userName) {
             thisUser.channelHTMLTemplate = template;
         },
         currentlyStreaming: function() {
+            console.log("is it called");
             var template = $(thisUser.channelHTMLTemplate);
             var $isCurrentlyStreaming = $(template).find(".more-info-link");
 
@@ -85,6 +86,7 @@ function TwitchUser(userName) {
             } else {
                 $isCurrentlyStreaming.html("Not currently streaming");
             }
+            thisUser.channelHTMLTemplate = template;
         },
         streamInfo: function() {
             var currentStream = thisUser.currentStreamInfo.stream;
@@ -126,25 +128,43 @@ function getChannelInfoForAllUsers(userList) {
     });
 }
 
+function getCurrentStreamInfoForAllUsers(userList) {
+    return new Promise(function(resolve, reject) {
+        for (var i = 0, len = userList.length; i < len; i++) {
+            userList[i].getCurrentTwitchStreamInfo().then(function(thisUser) {
+                if (thisUser === userList[userList.length - 1]) {
+                    resolve(userList);
+                }
+            })
+        }
+    });
+}
+
 function setChannelInfoForAllUsers(userList) {
     for (var i = 0, len = userList.length; i < len; i++) {
         userList[i].setHTMLFor.basicInfo();
     }
-    console.log("Should be called once");
 }
 
 function addUserTemplatesToHTML($location, userList) {
     for (var i = 0, len = userList.length; i < len; i++) {
         $location.append(userList[i].channelHTMLTemplate);
     }
+}
 
+function setCurrentlyStreamingHTML(userList) {
+    for (var i = 0, len = userList.length; i < len; i++) {
+        userList[i].setHTMLFor.currentlyStreaming();
+    }
 }
 
 $(document).ready(function() {
     var currentTwitchUsers = getAllUsers(twitchUsers);
     getChannelInfoForAllUsers(currentTwitchUsers).then(function(userList) {
         setChannelInfoForAllUsers(userList);
-        console.log("append now")
+        getCurrentStreamInfoForAllUsers(userList).then(function(userList) {
+            setCurrentlyStreamingHTML(userList);
+        });
         addUserTemplatesToHTML($("#channelsContainer"), currentTwitchUsers);
-    })
+    });
 });
