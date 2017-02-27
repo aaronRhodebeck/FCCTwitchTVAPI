@@ -1,10 +1,10 @@
 var twitchUsers = [
-    "Twit",
-    "FreeCodeCamp",
-    "DrunkDevs",
-    "Blasman13",
-    "NarcosVsZombies",
-    "HardlyDifficult",
+    Twit,
+    FreeCodeCamp,
+    DrunkDevs,
+    Blasman13,
+    NarcosVsZombies,
+    HardlyDifficult,
 ]
 
 function TwitchUser(userName) {
@@ -14,7 +14,7 @@ function TwitchUser(userName) {
     this.channelInfo;
     this.isCurrentlyStreaming;
     this.currentStreamInfo;
-    this.channelHTMLTemplate;
+    var channelHTMLTemplate;
 
     createChannelURL(userName);
     createChannelTemplate()
@@ -24,10 +24,9 @@ function TwitchUser(userName) {
     }
 
     function createChannelTemplate() {
-        var $template = $("#channelTemplate").clone().removeAttr("id");
+        var $t = $("#channelTemplate").clone().removeAttr("id");
+        var $template = $($t.html());
         $template.attr("id", thisUser.userName)
-        thisUser.channelHTMLTemplate = $template;
-        console.log($template.html());
     }
 
     function createAPICallFor(channelOrStream, userName) {
@@ -74,10 +73,5 @@ function TwitchUser(userName) {
             $channelName.html(thisUser.userName);
             $logo.attr("src", thisUser.channelInfo.logo);
         }
-
     }
 }
-
-$(document).ready(function() {
-    var user = new TwitchUser("freeCodeCamp");
-});

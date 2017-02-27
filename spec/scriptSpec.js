@@ -145,10 +145,6 @@ describe("TwitchUser", function() {
         it("should start with an undefined currentStreamInfo property", function() {
             expect(user.currentStreamInfo).toBeUndefined();
         });
-        it("should store an HTML template as a variable", function() {
-            expect(user.channelHTMLTemplate).not.toBeUndefined();
-            expect(user.channelHTMLTemplate).toEqual(jasmine.any(Object));
-        })
     });
     describe(".getChannelInfo", function() {
         beforeAll(function(done) {
