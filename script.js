@@ -1,12 +1,11 @@
 var twitchUsers = [
     "Twit",
-    /*
     "FreeCodeCamp",
-       "DrunkDevs",
-       "Blasman13",
-       "NarcosVsZombies",
-       "HardlyDifficult",
-       "Comster404", */
+    "DrunkDevs",
+    "Blasman13",
+    "NarcosVsZombies",
+    "HardlyDifficult",
+    "Comster404",
 ]
 
 function TwitchUser(userName) {
@@ -41,6 +40,9 @@ function TwitchUser(userName) {
         var promise = new Promise(function(resolve, reject) {
             $.getJSON(apiCall).then(function(json) {
                 thisUser.channelInfo = json;
+                if (json.message) {
+                    thisUser.userName = thisUser.userName + (" does not exist")
+                }
                 resolve(thisUser);
             });
         });
@@ -101,7 +103,7 @@ function TwitchUser(userName) {
                 var $viewers = $(template).find(".viewers");
                 var $isLive = $(template).find(".live-or-replay");
                 $game.html("Showing: " + currentStream.game);
-                $viewers.html(currentStream.viewers + "viewers");
+                $viewers.html(currentStream.viewers + " viewers");
                 if (currentStream.is_playlist) {
                     $isLive.html("Replay");
                 } else {
@@ -176,6 +178,7 @@ $(document).ready(function() {
         getCurrentStreamInfoForAllUsers(userList).then(function(userList) {
             setCurrentlyStreamingHTML(userList);
             setAllStreamInfoHTML(userList);
+
         });
         addUserTemplatesToHTML($("#channelsContainer"), currentTwitchUsers);
     });

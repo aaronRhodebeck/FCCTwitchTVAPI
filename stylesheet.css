@@ -36,3 +36,8 @@ h3 {
 .stream-property {
     font-size: 1.3em;
 }
+
+.toggle-more-info {
+    background: black;
+    border: 0px;
+}
