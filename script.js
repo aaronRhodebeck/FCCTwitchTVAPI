@@ -1,11 +1,12 @@
 var twitchUsers = [
     "Twit",
+    /*
     "FreeCodeCamp",
-    "DrunkDevs",
-    "Blasman13",
-    "NarcosVsZombies",
-    "HardlyDifficult",
-    "Comster404",
+       "DrunkDevs",
+       "Blasman13",
+       "NarcosVsZombies",
+       "HardlyDifficult",
+       "Comster404", */
 ]
 
 function TwitchUser(userName) {
@@ -70,19 +71,22 @@ function TwitchUser(userName) {
         basicInfo: function() {
             var template = $(thisUser.channelHTMLTemplate);
             var $channelName = $(template).find(".channel-name");
+            var $channelLink = $(template).find(".channel-link");
             var $logo = $(template).find(".channel-logo");
 
             $channelName.html(thisUser.userName);
+            $channelLink.attr("href", thisUser.channelURL)
             $logo.attr("src", thisUser.channelInfo.logo);
             thisUser.channelHTMLTemplate = template;
         },
         currentlyStreaming: function() {
-            console.log("is it called");
             var template = $(thisUser.channelHTMLTemplate);
             var $isCurrentlyStreaming = $(template).find(".more-info-link");
+            var $moreInfoContainer = $(template).find(".stream-info-container");
 
             if (thisUser.isCurrentlyStreaming) {
                 $isCurrentlyStreaming.html("See what's playing");
+                $moreInfoContainer.removeClass("hidden");
             } else {
                 $isCurrentlyStreaming.html("Not currently streaming");
             }
@@ -90,19 +94,21 @@ function TwitchUser(userName) {
         },
         streamInfo: function() {
             var currentStream = thisUser.currentStreamInfo.stream;
-            var $moreInfoLink = $template.find(".more-info-link");
-            var $game = $template.find(".game");
-            var $viewers = $template.find(".viewers");
-            var $isLive = $template.find(".live-or-replay");
-
-            $game.html(currentStream.game);
-            $viewers.html(currentStream.viewers);
-            if (currentStream.is_playlist) {
-                $isLive.html("Replay");
-            } else {
-                $isLive.html("Live!");
+            var template = $(thisUser.channelHTMLTemplate);
+            if (currentStream) {
+                var $moreInfoLink = $(template).find(".more-info-link");
+                var $game = $(template).find(".game");
+                var $viewers = $(template).find(".viewers");
+                var $isLive = $(template).find(".live-or-replay");
+                $game.html("Showing: " + currentStream.game);
+                $viewers.html(currentStream.viewers + "viewers");
+                if (currentStream.is_playlist) {
+                    $isLive.html("Replay");
+                } else {
+                    $isLive.html("Live!");
+                }
+                thisUser.channelHTMLTemplate = template;
             }
-            thisUser.channelHTMLTemplate = template;
         }
     }
 }
@@ -158,12 +164,18 @@ function setCurrentlyStreamingHTML(userList) {
     }
 }
 
+function setAllStreamInfoHTML(userList) {
+    for (var i = 0, len = userList.length; i < len; i++) {
+        userList[i].setHTMLFor.streamInfo();
+    }
+}
 $(document).ready(function() {
     var currentTwitchUsers = getAllUsers(twitchUsers);
     getChannelInfoForAllUsers(currentTwitchUsers).then(function(userList) {
         setChannelInfoForAllUsers(userList);
         getCurrentStreamInfoForAllUsers(userList).then(function(userList) {
             setCurrentlyStreamingHTML(userList);
+            setAllStreamInfoHTML(userList);
         });
         addUserTemplatesToHTML($("#channelsContainer"), currentTwitchUsers);
     });
