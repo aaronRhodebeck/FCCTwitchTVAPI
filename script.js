@@ -71,12 +71,20 @@ function TwitchUser(userName) {
             var template = $(thisUser.channelHTMLTemplate);
             var $channelName = $(template).find(".channel-name");
             var $logo = $(template).find(".channel-logo");
-            console.log($logo.attr("src"));
 
             $channelName.html(thisUser.userName);
             $logo.attr("src", thisUser.channelInfo.logo);
             thisUser.channelHTMLTemplate = template;
-            console.log(thisUser.channelHTMLTemplate);
+        },
+        currentlyStreaming: function() {
+            var template = $(thisUser.channelHTMLTemplate);
+            var $isCurrentlyStreaming = $(template).find(".more-info-link");
+
+            if (thisUser.isCurrentlyStreaming) {
+                $isCurrentlyStreaming.html("See what's playing");
+            } else {
+                $isCurrentlyStreaming.html("Not currently streaming");
+            }
         },
         streamInfo: function() {
             var currentStream = thisUser.currentStreamInfo.stream;
@@ -92,6 +100,7 @@ function TwitchUser(userName) {
             } else {
                 $isLive.html("Live!");
             }
+            thisUser.channelHTMLTemplate = template;
         }
     }
 }
