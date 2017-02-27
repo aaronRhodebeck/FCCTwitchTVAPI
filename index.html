@@ -21,48 +21,31 @@
             <h1 class="page-title">Development and Technology Twitch Streams</h1>
         </div>
         <div id="channelsContainer" class="container">
-            <div id="FreeCodeCamp" class="row">
-                <div class="channel-container container col-sm-8 col-sm-offset-2">
-                    <img class="col-xs-3 channel-logo" src="spec/SampleImages/FreeCodeCampLogo.jpg">
+            <template id="channelTemplate" class="row">
+                 <div class="channel-container container col-sm-8 col-sm-offset-2">
+                    <img class="col-xs-3 channel-logo" src="">
                     <div class="container col-xs-9">
-                        <h3 class="channel-name col-xs-12">Free Code Camp</h3>
-                        <p class="more-info-link col-xs-12">Not currently streaming</p>
-                        <div class="stream-info-container container col-xs-12">
+                        <a class="channel-link" ><h3 class="channel-name col-xs-12"></h3></a>
+                        <button class="toggle-more-info"><p class="more-info-link col-xs-12"></p></button>
+                        <div class="stream-info-container hidden container col-xs-12">
                             <ul class="stream-info-list">
                                 <li class="stream-property">
-                                    <span class="property-title">Game: </span>
-                                    <span class="property-value">Overwatch</span>
+                                    <span class="property-title"></span>
+                                    <span class="game"></span>
                                 </li>
                                 <li class="stream-property">
-                                    <span class="property-title">Currently Watching: </span>
-                                    <span class="property-value">1200</span>
+                                    <span class="property-title"></span>
+                                    <span class="viewers"></span>
+                                </li>
+                                <li class="stream-property">
+                                    <span class="property-title"></span>
+                                    <span class="live-or-replay"></span>
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div id="twit" class="row">
-                <div class="channel-container container col-sm-8 col-sm-offset-2">
-                    <img class="col-xs-3 channel-logo" src="spec/SampleImages/TWiTLogo.png">
-                    <div class="container col-xs-9">
-                        <h3 class="channel-name col-xs-12">TWIT (This week in tech)</h3>
-                        <p class="more-info-link col-xs-12">See what's playing</p>
-                        <div class="stream-info-container container col-xs-12 hidden">
-                            <ul class="stream-info-list">
-                                <li class="stream-property">
-                                    <span class="property-title">Game: </span>
-                                    <span class="property-value">Halo</span>
-                                </li>
-                                <li class="stream-property">
-                                    <span class="property-title">Currently Watching: </span>
-                                    <span class="property-value">12</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </template>
         </div>
     </div>
     <!-- Copy to here for CodePen -->
