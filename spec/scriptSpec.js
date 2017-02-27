@@ -162,8 +162,7 @@ describe("TwitchUser", function() {
         it("should request the channel info from the twitch api", function() {
             expect(user.channelInfo).not.toBeUndefined();
         })
-    })
-
+    });
     describe(".getCurrentTwitchStreamInfo", function() {
 
         describe("when calling the API", function() {

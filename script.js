@@ -73,7 +73,21 @@ function TwitchUser(userName) {
 
             $channelName.html(thisUser.userName);
             $logo.attr("src", thisUser.channelInfo.logo);
-        }
+        },
+        streamInfo: function() {
+            var currentStream = thisUser.currentStreamInfo.stream;
+            var $moreInfoLink = $template.find(".more-info-link");
+            var $game = $template.find(".game");
+            var $viewers = $template.find(".viewers");
+            var $isLive = $template.find(".live-or-replay");
 
+            $game.html(currentStream.game);
+            $viewers.html(currentStream.viewers);
+            if (currentStream.is_playlist) {
+                $isLive.html("Replay");
+            } else {
+                $isLive.html("Live!");
+            }
+        }
     }
 }
