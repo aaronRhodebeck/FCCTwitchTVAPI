@@ -27,7 +27,7 @@ function TwitchUser(userName) {
     function createChannelTemplate() {
         var $template = $("#channelTemplate").clone().removeAttr("id");
         $template.attr("id", thisUser.userName)
-        thisUser.channelHTMLTemplate = $template;
+        thisUser.channelHTMLTemplate = $($template).html();
     }
 
     function createAPICallFor(channelOrStream, userName) {
@@ -40,7 +40,7 @@ function TwitchUser(userName) {
         var promise = new Promise(function(resolve, reject) {
             $.getJSON(apiCall).then(function(json) {
                 thisUser.channelInfo = json;
-                resolve();
+                resolve(thisUser);
             });
         });
         return promise;
@@ -68,11 +68,15 @@ function TwitchUser(userName) {
 
     this.setHTMLFor = {
         basicInfo: function() {
-            var $channelName = $template.find(".channel-name");
-            var $logo = $template.find(".channel-logo");
+            var template = $(thisUser.channelHTMLTemplate);
+            var $channelName = $(template).find(".channel-name");
+            var $logo = $(template).find(".channel-logo");
+            console.log($logo.attr("src"));
 
             $channelName.html(thisUser.userName);
             $logo.attr("src", thisUser.channelInfo.logo);
+            thisUser.channelHTMLTemplate = template;
+            console.log(thisUser.channelHTMLTemplate);
         },
         streamInfo: function() {
             var currentStream = thisUser.currentStreamInfo.stream;
@@ -101,24 +105,37 @@ function getAllUsers(desiredUsers) {
     return allUsers;
 }
 
-function getAndSetChannelInfoForAllUsers(userList) {
-    for (var i = 0, len = userList.length; i < len; i++) {
-        userList[i].getChannelInfo().then(function() {
-            usersList[i].setHTMLFor.basicInfo();
-        });
-    }
+function getChannelInfoForAllUsers(userList) {
+    return new Promise(function(resolve, reject) {
+        for (var i = 0, len = userList.length; i < len; i++) {
+            userList[i].getChannelInfo().then(function(thisUser) {
+                if (thisUser === userList[userList.length - 1]) {
+                    resolve(userList);
+                }
+            })
+        }
+    });
 }
 
-function addUserTemplateToHTML($location, userList) {
+function setChannelInfoForAllUsers(userList) {
     for (var i = 0, len = userList.length; i < len; i++) {
-        $location.append(userList[i]);
+        userList[i].setHTMLFor.basicInfo();
+    }
+    console.log("Should be called once");
+}
+
+function addUserTemplatesToHTML($location, userList) {
+    for (var i = 0, len = userList.length; i < len; i++) {
+        $location.append(userList[i].channelHTMLTemplate);
     }
 
 }
 
 $(document).ready(function() {
     var currentTwitchUsers = getAllUsers(twitchUsers);
-    getAndSetChannelInfoForAllUsers(currentTwitchUsers);
-    addUserTemplateToHTML($("#channelsContainer"), currentTwitchUsers);
-    console.log(currentTwitchUsers);
+    getChannelInfoForAllUsers(currentTwitchUsers).then(function(userList) {
+        setChannelInfoForAllUsers(userList);
+        console.log("append now")
+        addUserTemplatesToHTML($("#channelsContainer"), currentTwitchUsers);
+    })
 });
